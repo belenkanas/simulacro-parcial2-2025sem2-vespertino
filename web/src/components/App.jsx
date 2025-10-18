@@ -4,6 +4,7 @@ import Home from './Home.jsx';
 import Country from './Country.jsx';
 import ErroresContext from './contexts/Errores.jsx';
 import VisitadosContext from './contexts/Vistados.jsx';
+import End from './End.jsx';
 
 export default function App() {
   //Sistema de puntos de errores (que será envuelta dentro del contexto):
@@ -32,6 +33,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path='/country/:cca3' element={<Country />} />
+            <Route path='/end' element={<End />} />
           </Routes>
         </BrowserRouter>
       </VisitadosContext.Provider>
