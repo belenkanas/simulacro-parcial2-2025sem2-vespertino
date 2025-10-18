@@ -53,8 +53,10 @@ h1, h2 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
-  padding: 20px 100px;
   gap: 15px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .banderasBotones button {
