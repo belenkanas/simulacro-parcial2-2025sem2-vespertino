@@ -93,11 +93,23 @@ const Country = () => {
     }
 
     async function handleNinguno(){
+      if (correctos.length === 0){
+        alert('Correcto, el país no tiene países borderizos')
+      } else{
+        alert('Incorrecto, el país sí tiene países borderizos');
+        losePoints();
+        if (points -1 <= 0){
+            alert('Has perdido el juego');
+            navigate('/end');
+            return;
+        }
+      }
+
         const response = await fetch('/api/countries');
         const todos = await response.json();
         let random;
         do {
-        random = todos[Math.floor(Math.random() * todos.length)];
+          random = todos[Math.floor(Math.random() * todos.length)];
         } while (mode.includes(random)); // elige uno no visitado
 
         navigate(`/country/${random}`);
