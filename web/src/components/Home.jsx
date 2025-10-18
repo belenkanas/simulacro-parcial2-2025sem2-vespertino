@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useContext } from 'react';
-import VisitadosContext from './contexts/Vistados';
-import ErroresContext from './contexts/Errores';
+import VisitadosContext from './contexts/Vistados.jsx';
+import ErroresContext from './contexts/Errores.jsx';
 
 export default function Home() {
 
-  const {mode, addVisitado} = useContext(VisitadosContext);
-  const {points} = useContext(ErroresContext);
+  const {addVisitado} = useContext(VisitadosContext);
+  const {setPoints} = useContext(ErroresContext);
 
   const [pais, setPais] = useState(null);
+  const navigate = useNavigate();
 
   async function obtenerPaisRandom(){
     try{
@@ -21,7 +21,7 @@ export default function Home() {
       //Tengo los códigos de los países tipo URY, ARG, BRA, etc
 
       const codigoRandom = Math.floor(Math.random() * codigos.length);
-      let paisRandom = codigos[codigoRandom];
+      const paisRandom = codigos[codigoRandom];
       addVisitado(paisRandom);
       setPais(paisRandom);
 
@@ -37,13 +37,14 @@ export default function Home() {
   function handleEleccion(modo){
     //Segun la eleccion que se hace, se ajustan los errores permitidos en el contexto
     if (modo === 'facil'){
-      points = 8;
+      setPoints(8);
     } else if (modo === 'medio'){
-      points = 5;
+      setPoints(5);
     } else if (modo === 'dificil'){
-      points = 3;
+      setPoints(3);
     }
-    navigate(`/country/${pais.cca3}`)
+    navigate(`/country/${pais}`)
+    //Va al país random
   }
 
   return (
@@ -52,15 +53,15 @@ export default function Home() {
       <h2>Elija la dificultad del juego</h2>
 
     <div>
-      <button onClick={handleEleccion('facil')}>Fácil</button>
+      <button onClick={() => handleEleccion('facil')}>Fácil</button>
     </div>
 
     <div>
-      <button onClick={handleEleccion('medio')}>Fácil</button>
+      <button onClick={() => handleEleccion('medio')}>Medio</button>
     </div>
 
     <div>
-      <button onClick={handleEleccion('dificil')}>Fácil</button>
+      <button onClick={() => handleEleccion('dificil')}>Difícil</button>
     </div>
 
     

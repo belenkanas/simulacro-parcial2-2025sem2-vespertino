@@ -10,6 +10,7 @@ export default function App() {
     const [errores, setErrores] = useState(0);
     const erroresSettings = {
       points: errores,
+      setPoints: setErrores,
       losePoints: () => setErrores((p) => p - 1),
     };
   
@@ -18,8 +19,8 @@ export default function App() {
   const visitadosSettings ={
     mode: visitados,
     addVisitado: (p) => {
-      if (!visitados.includes(p)){
-        setVisitados(visitados.push(p))
+    if (!visitados.includes(p)) {
+        setVisitados([...visitados, p]);
       }
     }
   };
