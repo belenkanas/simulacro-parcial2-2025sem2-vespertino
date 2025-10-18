@@ -2,25 +2,38 @@ import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './Home.jsx';
 import Country from './Country.jsx';
-import PointsContext from './contexts/Points.jsx';
+import ErroresContext from './contexts/Errores.jsx';
+import VisitadosContext from './contexts/Vistados.jsx';
 
 export default function App() {
-  //Sistema de puntos (que será envuelta dentro del contexto):
-    const [points, setPoints] = useState(0);
-    const pointsSettings = {
-      mode: points,
-      addPoints: () => setPoints((p) => p + 1),
-      substractPoints: () => setPoints((p) => p - 1),
+  //Sistema de puntos de errores (que será envuelta dentro del contexto):
+    const [errores, setErrores] = useState(0);
+    const erroresSettings = {
+      points: errores,
+      losePoints: () => setErrores((p) => p - 1),
     };
+  
+  //Sistema de países visitados. Es una lista con los mismos
+  const [visitados, setVisitados] = useState([])
+  const visitadosSettings ={
+    mode: visitados,
+    addVisitado: (p) => {
+      if (!visitados.includes(p)){
+        setVisitados(visitados.push(p))
+      }
+    }
+  };
 
   return (
-    <PointsContext.Provider value={pointsSettings}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path='/country/:cca3' element={<Country />} />
-      </Routes>
-    </BrowserRouter>
-    </PointsContext.Provider>
+    <ErroresContext.Provider value={erroresSettings}>
+      <VisitadosContext.Provider value={visitadosSettings}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path='/country/:cca3' element={<Country />} />
+          </Routes>
+        </BrowserRouter>
+      </VisitadosContext.Provider>
+    </ErroresContext.Provider>
   );
 }

@@ -1,0 +1,66 @@
+Home:
+
+Muestra tres botones
+Facil - 8 errores
+Medio - 5 errores
+Dificil - 3 errores
+
+Se le pone un contador a cada modo
+
+=====================================
+
+Country:
+
+Los botones redirigen a la ruta 
+/country/:caa3, siendo el parámetro en primer 
+instancia ALEATORIO
+
+En Country se muestra:
+
+Bandera del país seleccionado
+
+9 botones (RANDOM) con banderas de países.
+Entre estas banderas deben ir países limítrofes
+(Los países que fronterizos se encuentran en la propiedad borders del registro de cada país.)
+
+Condicion:
+Si apreta un boton correcto (país borderizo) => Se redirige a la página country de ese país 
+(con la misma lógica)
+Si NO acierta => El contador disminuye un punto. Se redirige también a la página country de ese país 
+TERCERA CONSIDERACIÓN:
+Boton de NINGUNO => Debe ser presionado por el usuario cuando no se pueda elegir ninguno de los países propuestos.
+Redirige a un país random NO VISITADO
+
+Debajo del botón Ninguno se le debe indicar al usuario la cantidad de países visitados, y la cantidad de errores que todavía puede cometer.
+
+**CON CADA BOTON SE ANALIZA SI ES CORRECTO O NO Y LUEGO SIEMPRE SE REDIRIGE A UN PAÍS NO VISITADO
+
+Usted lleva {paisesVisitados.mode} países visitados
+Usted puede errarle {errores.mode} veces
+
+
+En country:
+function handleCorrecto(paisSeleccionado){
+    if (paisSeleccionado == pais.border.flag){ ((implemento mejor un find, ya que pueden haber más de un país limítrofe))
+        alert('Opcion correcta')
+    }else{
+        erroresSettings.losePoints();
+        if (erroresSettings.mode === 0){
+            navigate('/end)
+        }
+        alert('Opcion incorrecta')
+    }
+    navigate(/country/{paisSeleccionado.cca3}) 
+} 
+===================================================================
+
+End:
+/end
+
+Se redirige al usuario a esta ruta cuando su contador de errores llega a 0
+
+En esta página, se muestra el historial de PAISES VISITADOS (hayan sido opciones correctas o no)
+
+Aparece un botón para volver al incio
+Link to='./'
+navigate('./')
