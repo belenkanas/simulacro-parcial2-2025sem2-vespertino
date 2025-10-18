@@ -6,50 +6,16 @@ import VisitadosContext from "./contexts/Vistados";
 
 const Country = () => {
     const { cca3 } = useParams();
-    const [country, setCountry] = useState(null);
-
-    const {points, setPoints, losePoints} = useContext(ErroresContext);
-    const {mode, addVisitado} = useContext(VisitadosContext);
-
-    const [paises, setPaises] = useState([]);
-    const [correctos, setCorrectos] = useState([]);
     const navigate = useNavigate();
 
+    const {points, losePoints} = useContext(ErroresContext);
+    const {mode, addVisitado} = useContext(VisitadosContext);
 
-     //FETCH para traer todos los countries y la guardamos en una lista de países
-  //uso de fetch con async await.
-    async function obtenerPaises() {
-      try {
-        const response = await fetch('api/countries')
-        if (!response.ok) {
-          throw new Error('Error al obtener países');
-        }
-        const codigos = await response.json();
-
-        const seleccion= [];
-        while (seleccion.length < 9){
-          const indice = Math.floor(Math.random() * codigos.length);
-          //Esto trae los códigos tipo URY, ARG, etc.
-          const codigoPais = codigos[indice];
-
-          if (!seleccion.includes(codigoPais)){
-            seleccion.push(codigoPais);
-          }
-        }
-
-          const opcionesCorrectas = [];
-          setPaises(seleccion);
-          setCorrectos(opcionesCorrectas);
-      } catch (error) {
-        console.error('Error:', error.message);
-      }
-    }
-
-    useEffect(()=> {
-      obtenerPaises();
-    }, []);
-
-    useEffect(()=> {
+    const [country, setCountry] = useState(null)
+    const [paises, setPaises] = useState([]);
+    const [correctos, setCorrectos] = useState([]);
+    
+    //Traigo país actual:
     async function obtenerPais() {
       try {
         const response = await fetch(`/api/countries/${cca3}`)
@@ -58,32 +24,96 @@ const Country = () => {
         }
         const pais = await response.json();
         setCountry(pais);
+        addVisitado(pais.id); //Lo agrego a los visitados
+        setCorrectos(pais.borders ?? []); // guarda sus fronterizos
       } catch (error) {
         console.error('Error:', error.message);
       }
     }
-    obtenerPais();
+    useEffect(()=> {
+        obtenerPais();
     }, [cca3]);
+
+   //Fetch para traer todos los países y elegir 9 aleatorios para las opciones
+    async function obtenerPaises() {
+      try {
+        const response = await fetch('/api/countries')
+        if (!response.ok) {
+          throw new Error('Error al obtener países');
+        }
+        const codigos = await response.json();
+        const seleccion= new Set();
+
+        //Priorizo agregar las opciones correctas primero
+        if (country?.borders) {
+            setCorrectos(country.borders);
+            for (const border of country.borders) {
+                if (seleccion.size < 9) seleccion.add(border);
+            }
+        }
+        while (seleccion.size < 9) {
+          const codigo = codigos[Math.floor(Math.random() * codigos.length)];
+          seleccion.add(codigo);
+        }
+
+        const detalles = await Promise.all(
+          Array.from(seleccion).map((codigoPais) => 
+            fetch(`/api/countries/${codigoPais}`).then((res) => res.json())
+          )
+        );
+
+          setPaises(detalles);
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+    }
+
+    useEffect(()=> {
+      if (country) obtenerPaises();
+    }, [country]);
+
+    
   
   function handleCorrecto(paisSeleccionado){
-    if (paisSeleccionado.name.commom == correctos.name.common){ //((implemento mejor un find, ya que pueden haber más de un país limítrofe))
+    const esCorrecto = correctos.includes(paisSeleccionado.cca3);
+    
+    if (esCorrecto){
         alert('Opcion correcta')
     }else{
         losePoints();
-        if (points === 0){
+        if (points -1 <= 0){
             alert('Has perdido el juego');
             navigate('/end');
-        }else{
-        alert('Opcion incorrecta');}
+            return;
+        }
+        alert('Opcion incorrecta');
     }
-    navigate(`/country/${paisSeleccionado.cca3}`) 
-} 
+    //redirige al país seleccionado (sea opcion correcta o no)
+        navigate(`/country/${paisSeleccionado.cca3}`) 
+    }
 
+    async function handleNinguno(){
+        const response = await fetch('/api/countries');
+        const todos = await response.json();
+        let random;
+        do {
+        random = todos[Math.floor(Math.random() * todos.length)];
+        } while (mode.includes(random)); // elige uno no visitado
+
+        navigate(`/country/${random}`);
+    }
+
+    if (!country) return <h2>Cargando país...</h2>;
 
     return (
         <>
         <div className="Country">
             <h1>{country.name?.common}</h1>
+            <img
+                src={country.flag?.svg}
+                alt={country.flag?.alt ?? `Bandera de ${country.name?.common}`}
+                width="200"
+            />
 
             <div className='banderasBotones'>
                 {paises.map((pais, i) => (
@@ -93,19 +123,18 @@ const Country = () => {
                         <img
                         src={pais.flag.svg}
                         alt={pais.flag.alt ?? `Bandera de ${pais.name?.common}`}
+                        width="100"
                         />
                     </button>
                 ))}
             </div>
 
-
-            <h2>Usted lleva {mode.count()} países visitados</h2>
-            <h2>Usted puede errarle {errores.mode} veces</h2>
+            <button onClick={handleNinguno}>Ninguno</button>
+            <h2>Usted lleva {mode.length} países visitados</h2>
+            <h2>Usted puede errarle {points} veces</h2>
         </div>
         </>
-    )
-
-
-}
+    );
+};
 
 export default Country;
