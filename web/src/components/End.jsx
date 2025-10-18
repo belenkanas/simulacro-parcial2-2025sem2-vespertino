@@ -35,7 +35,7 @@ export default function End() {
     <>
     <div className='End'>
         <h1>Fin del juego</h1>
-        <h2>Usted visitó los siguientes países</h2>
+        <h2>Usted visitó en total <strong>{mode.length}</strong> países:</h2>
 
 
         <div className='banderasBotones'>
