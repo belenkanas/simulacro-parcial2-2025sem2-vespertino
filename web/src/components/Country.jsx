@@ -24,8 +24,8 @@ const Country = () => {
         }
         const pais = await response.json();
         setCountry(pais);
-        addVisitado(pais.id); //Lo agrego a los visitados
-        setCorrectos(pais.borders ?? []); // guarda sus fronterizos
+        addVisitado(country); //Lo agrego a los visitados
+        setCorrectos(country.borders ?? []); // guarda sus fronterizos
       } catch (error) {
         console.error('Error:', error.message);
       }
@@ -46,7 +46,6 @@ const Country = () => {
 
         //Priorizo agregar las opciones correctas primero
         if (country?.borders) {
-            setCorrectos(country.borders);
             for (const border of country.borders) {
                 if (seleccion.size < 9) seleccion.add(border);
             }
