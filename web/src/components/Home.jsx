@@ -36,6 +36,8 @@ export default function Home() {
 
   function handleEleccion(modo){
     //Segun la eleccion que se hace, se ajustan los errores permitidos en el contexto
+    if (!pais) return;
+    
     if (modo === 'facil'){
       setPoints(8);
     } else if (modo === 'medio'){
