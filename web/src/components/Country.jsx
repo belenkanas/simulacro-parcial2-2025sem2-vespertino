@@ -108,6 +108,8 @@ const Country = () => {
     return (
         <>
         <div className="Country">
+
+            <div className="card"> 
             <h1>{country.name?.common}</h1>
             <img
                 src={country.flag?.svg}
@@ -115,6 +117,8 @@ const Country = () => {
                 width="200"
             />
 
+            <h2>¿Cuál de los siguientes países es fronterizo?</h2>
+            </div>
             <div className='banderasBotones'>
                 {paises.map((pais, i) => (
                     <button 
@@ -129,9 +133,15 @@ const Country = () => {
                 ))}
             </div>
 
-            <button onClick={handleNinguno}>Ninguno</button>
-            <h2>Usted lleva {mode.length} países visitados</h2>
-            <h2>Usted puede errarle {points} veces</h2>
+            <button 
+                className='buttonNinguno' 
+                onClick={handleNinguno}>Ninguno
+            </button>
+
+            <div className="info">
+                <h2>Usted lleva {mode.length} países visitados</h2>
+                <h2>Usted puede errarle <strong style={{color:"red"}}>{points}</strong> veces</h2>
+            </div>
         </div>
         </>
     );

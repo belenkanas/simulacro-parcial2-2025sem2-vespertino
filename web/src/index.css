@@ -5,14 +5,17 @@
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-h1{
-    padding-top: 20px;
-    font-size: 50px;
+.Country .card{
+    padding-top: 30px ;
+    text-align: center;
 }
 
-.map img{
-    width: 250px;
-    height: 250px;
+.Country .card h1{
+    font-size: 60px;
+}
+
+.Country .card img{
+    border: solid 1px #ccc;
 }
 
 .banderasBotones button img{
@@ -22,20 +25,26 @@ h1{
     margin: 10px 10px;
 }
 
-.banderasBotones button{
+.Country .banderasBotones{
+    display: grid;
+    padding: 200px 200px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    grid-template-columns: 1fr 1fr;
+}
+
+.Country .banderasBotones button{
     margin: 10px 10px;
-    background-color: rgba(183, 218, 249, 0.8);
-    border: none;
-    border-radius: 15px;
     cursor: pointer;
     transition: border-color 0.25s;
+    border-radius: 8px;
+    background-color: rgba(183, 218, 249, 0.8);
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    transition: background-color 0.25;
 }
 
-.banderasBotones button:hover{
-    background-color: rgba(108, 135, 158, 0.751); 
-}
-
-.boton-home, .Country button {
+.Country .buttonNinguno{
     border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -46,8 +55,20 @@ h1{
   cursor: pointer;
   transition: border-color 0.25s;
   transition: background-color 0.25;
+  display: block;
+  margin: 0 auto;
 }
 
+.Country .info{
+    text-align: center;
+    font-size: 15px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:rgb(80, 91, 101);
+}
+
+.Country .banderasBotones button:hover{
+    background-color: rgba(108, 135, 158, 0.751); 
+}
 .boton-home:hover, .Country button:hover{
     border-color: #646cff;
 }
@@ -59,37 +80,18 @@ h1{
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.Country button {
+.End{
+    text-align: center;
+}
+
+.End button {
   display: block;
   margin: 20px auto;
   font-weight: bold;
   font-size: large;
   height: 60px;
 }
-.Country button:hover{
+.End button:hover{
     background-color: skyblue;
-}
-.Country h1{
-    text-align: center;
-}
-
-.Country .card{
-    padding-top: 30px ;
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: 1fr 1fr;
-}
-
-.Country .card .info{
-    text-align: left;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-
-.Country .card .imagenes img{
-    width: 200px;
-    height: 200px;
-    margin: 0 auto;
-    display: block;
-    padding: 15px 15px;
 }
 
