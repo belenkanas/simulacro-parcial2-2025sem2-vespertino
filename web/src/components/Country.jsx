@@ -139,7 +139,7 @@ const Country = () => {
             </button>
 
             <div className="info">
-                <h2>Usted lleva {mode.length} países visitados</h2>
+                <h2>Usted lleva <strong style={{color:"blue"}}>{mode.length}</strong> países visitados</h2>
                 <h2>Usted puede errarle <strong style={{color:"red"}}>{points}</strong> veces</h2>
             </div>
         </div>

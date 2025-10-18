@@ -51,6 +51,7 @@ export default function Home() {
 
   return (
     <>
+    <div className='Home'>
       <h1>Flag Trivia</h1>
       <h2>Elija la dificultad del juego</h2>
 
@@ -66,7 +67,7 @@ export default function Home() {
       <button onClick={() => handleEleccion('dificil')}>Difícil</button>
     </div>
 
-    
+    </div>
     </>
   )
 }
