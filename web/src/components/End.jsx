@@ -6,7 +6,7 @@ import VisitadosContext from './contexts/Vistados'
 export default function End() {
     
     const navigate = useNavigate();
-    const {mode} = useContext(VisitadosContext);
+    const {mode, limpiarVisitados} = useContext(VisitadosContext);
     const [visitados, setVisitados] = useState([]);
     
     async function obtenerVisitados() {
@@ -53,7 +53,9 @@ export default function End() {
 
         <button 
             className="botonContinuar"
-            onClick={()=> navigate('/')}
+            onClick={()=> 
+                {   limpiarVisitados(); //Limpia la partida. Sin esta función siguen guardados los países visitados
+                    navigate('/');}}
         >Continuar</button>
     </div>
     </>

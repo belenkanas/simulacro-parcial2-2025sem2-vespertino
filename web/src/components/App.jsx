@@ -23,7 +23,8 @@ export default function App() {
     if (!visitados.includes(p)) {
         setVisitados([...visitados, p]);
       }
-    }
+    },
+    limpiarVisitados: ()=> setVisitados([])
   };
 
   return (

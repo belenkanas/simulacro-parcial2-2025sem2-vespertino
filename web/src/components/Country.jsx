@@ -24,8 +24,8 @@ const Country = () => {
         }
         const pais = await response.json();
         setCountry(pais);
-        addVisitado(country); //Lo agrego a los visitados
-        setCorrectos(country.borders ?? []); // guarda sus fronterizos
+        addVisitado(pais.cca3); //Lo agrego a los visitados
+        setCorrectos(pais.borders ?? []); // guarda sus fronterizos
       } catch (error) {
         console.error('Error:', error.message);
       }
@@ -47,21 +47,14 @@ const Country = () => {
         //Priorizo agregar las opciones correctas primero
         if (country?.borders) {
             for (const border of country.borders) {
-                if (seleccion.size < 9) seleccion.add(border);
+                if (seleccion.size < 9 && (!mode.includes(border))) seleccion.add(border);
             }
         }
         while (seleccion.size < 9) {
           const codigo = codigos[Math.floor(Math.random() * codigos.length)];
-          seleccion.add(codigo);
+          if (!mode.includes(codigo)) seleccion.add(codigo);
         }
-
-        const detalles = await Promise.all(
-          Array.from(seleccion).map((codigoPais) => 
-            fetch(`/api/countries/${codigoPais}`).then((res) => res.json())
-          )
-        );
-
-          setPaises(detalles);
+          setPaises(Array.from(seleccion));
       } catch (error) {
         console.error('Error:', error.message);
       }
@@ -74,8 +67,7 @@ const Country = () => {
     
   
   function handleCorrecto(paisSeleccionado){
-    const esCorrecto = correctos.includes(paisSeleccionado.cca3);
-    
+    const esCorrecto = correctos.includes(paisSeleccionado);
     if (esCorrecto){
         alert('Opcion correcta')
     }else{
@@ -88,7 +80,8 @@ const Country = () => {
         alert('Opcion incorrecta');
     }
     //redirige al país seleccionado (sea opcion correcta o no)
-        navigate(`/country/${paisSeleccionado.cca3}`) 
+      addVisitado(paisSeleccionado)    
+      navigate(`/country/${paisSeleccionado}`) 
     }
 
     async function handleNinguno(){
@@ -136,8 +129,8 @@ const Country = () => {
                     key={i}
                     onClick={() => handleCorrecto(pais)}>
                         <img
-                        src={pais.flag.svg}
-                        alt={pais.flag.alt ?? `Bandera de ${pais.name?.common}`}
+                        src={`/flags/${pais}.svg`}
+                        alt={pais ?? `Bandera de ${pais}`}
                         width="100"
                         />
                     </button>
