@@ -62,5 +62,5 @@ Se redirige al usuario a esta ruta cuando su contador de errores llega a 0
 En esta página, se muestra el historial de PAISES VISITADOS (hayan sido opciones correctas o no)
 
 Aparece un botón para volver al incio
-Link to='./'
-navigate('./')
+Link to='/'
+navigate('/')
