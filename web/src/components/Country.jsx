@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useParams, Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ErroresContext from "./contexts/Errores";
@@ -94,7 +94,7 @@ const Country = () => {
       navigate(`/country/${paisSeleccionado}`) 
     }
 
-    async function handleNinguno(){
+    const handleNinguno = useCallback(async ()=> {
       if (correctos.length === 0){
         alert('Correcto, el país no tiene países borderizos')
       } else{
@@ -115,7 +115,7 @@ const Country = () => {
         } while (mode.includes(random)); // elige uno no visitado
 
         navigate(`/country/${random}`);
-    }
+    }, [correctos, losePoints, points, navigate]);
 
     if (!country) return <h2>Cargando país...</h2>;
 
