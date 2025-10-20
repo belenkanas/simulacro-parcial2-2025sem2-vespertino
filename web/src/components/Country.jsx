@@ -37,7 +37,7 @@ const Country = () => {
     }, [cca3]);
 
    //Fetch para traer todos los países y elegir 9 aleatorios para las opciones
-    async function obtenerPaises() {
+    const obtenerPaises = useCallback(async ()=> {
       try {
         const response = await fetch('/api/countries')
         if (!response.ok) {
@@ -70,7 +70,7 @@ const Country = () => {
       } catch (error) {
         console.error('Error:', error.message);
       }
-    }
+    }, [country, setPaises]); 
 
     useEffect(()=> {
       if (country) obtenerPaises();
