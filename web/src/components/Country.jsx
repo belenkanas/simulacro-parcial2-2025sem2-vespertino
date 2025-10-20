@@ -54,7 +54,17 @@ const Country = () => {
           const codigo = codigos[Math.floor(Math.random() * codigos.length)];
           if (!mode.includes(codigo)) seleccion.add(codigo);
         }
-          setPaises(Array.from(seleccion));
+
+        //Mezclar opciones entre correctas e incorrectas:
+          const arrayFinal = Array.from(seleccion);
+          for (let i = arrayFinal.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arrayFinal[i], arrayFinal[j]] = [arrayFinal[j], arrayFinal[i]]; // intercambio
+          }
+
+          setPaises(arrayFinal);
+
+          //Si no quiero mezclarlo lo hago así setPaises(Array.from(seleccion));
       } catch (error) {
         console.error('Error:', error.message);
       }
