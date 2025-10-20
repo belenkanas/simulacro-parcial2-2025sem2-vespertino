@@ -16,7 +16,7 @@ const Country = () => {
     const [correctos, setCorrectos] = useState([]);
     
     //Traigo país actual:
-    async function obtenerPais() {
+    const obtenerPais = useCallback(async ()=> {
       try {
         const response = await fetch(`/api/countries/${cca3}`)
         if (!response.ok) {
@@ -29,7 +29,9 @@ const Country = () => {
       } catch (error) {
         console.error('Error:', error.message);
       }
-    }
+    }, [cca3, setCountry, addVisitado, setCorrectos]);
+
+
     useEffect(()=> {
         obtenerPais();
     }, [cca3]);
